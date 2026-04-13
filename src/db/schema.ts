@@ -1,5 +1,13 @@
 import { sql } from "drizzle-orm";
-import { pgEnum, uuid, pgTable, varchar, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgEnum,
+  uuid,
+  pgTable,
+  varchar,
+  timestamp,
+  boolean,
+  text,
+} from "drizzle-orm/pg-core";
 
 const timestamps = {
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -19,5 +27,7 @@ export const usersTable = pgTable("users", {
   role: roleType("role").notNull().default("Employee"),
   email: varchar({ length: 255 }).notNull().unique(),
   password: varchar({ length: 255 }).notNull(),
+  isVerified: boolean("is_verified").notNull().default(false),
+  verificationToken: text("verification_token"),
   ...timestamps,
 });

@@ -9,7 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
+/drizzle
 # testing
 /coverage
 
@@ -19,7 +19,7 @@
 
 # production
 /build
-/drizzle
+
 
 # misc
 .DS_Store
