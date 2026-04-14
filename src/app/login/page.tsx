@@ -16,8 +16,8 @@ export default function LoginPage() {
     setError("");
 
     try {
-      /* --- UNCOMMENT THIS WHEN API IS READY ---
-      const response = await fetch("http://localhost:3000/api/auth/login", {
+
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -28,18 +28,14 @@ export default function LoginPage() {
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
       }
-      const userRole = data.user.role; 
-      ---------------------------------------- */
 
-       // temporary logic to check
-      let userRole = "";
-      if (email === "admin@prikom.com") userRole = "Admin";
-      else if (email === "manager@prikom.com") userRole = "Manager";
-      else if (email === "employee@prikom.com") userRole = "Employee";
-      else throw new Error("Invalid credentials for testing");
+       // after successful login, we will get the user data including the role from the backend response
+      // const userRole = data.user.role; 
+      const userRole = data.data.role;
 
 
-      // ROLE-BASED REDIRECTION
+
+       // Role based redirection
       if (userRole === "Admin") {
         router.push("/dashboard/admin");
       } else if (userRole === "Manager") {
@@ -50,8 +46,8 @@ export default function LoginPage() {
         setError("Unknown role assigned.");
       }
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (error) {
+      setError("Error" + (error as Error).message);
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +57,7 @@ export default function LoginPage() {
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-800">
-          Login to your Account
+          Log in to your Account
         </h2>
         
         {error && (
